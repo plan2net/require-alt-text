@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext">
+		<header/>
+		<body>
+			<trans-unit id="sys_file.alternative.description" resname="sys_file.alternative.description">
+				<source>Images must have text alternatives that describe the information or function represented by them.</source>
+				<target>Bilder müssen mit Text-Alternativen versehen sein, die die Information oder Funktion beschreiben, die sie darstellen.</target>
+			</trans-unit>
+        </body>
+    </file>
+</xliff>

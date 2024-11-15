@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en"
+          datatype="plaintext"
+          original="messages"
+          date="2020-01-17T15:39:00+00:00"
+          product-name="require_alt_text">
+        <header/>
+        <body>
+            <trans-unit id="error.alternativeTextMustNotBeEmpty">
+                <source>Alternative text for images must not be empty!</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
