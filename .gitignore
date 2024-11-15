@@ -1,0 +1,8 @@
+/.idea
+/.php-cs-fixer.cache
+/auth.json
+/composer.lock
+/Build/.psalm.cache
+/public
+/var
+/vendor

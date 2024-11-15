@@ -1,0 +1,85 @@
+{
+  "name": "plan2net/require-alt-text",
+  "description": "Require alternative text for images in TYPO3 CMS",
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "accessibility",
+    "a11y"
+  ],
+  "homepage": "https://www.plan2.net/",
+  "authors": [
+    {
+      "name": "Stefan Hekele",
+      "role": "Developer"
+    },
+    {
+      "name": "Ioulia Kondratovitch",
+      "role": "Developer"
+    },
+    {
+      "name": "Wolfgang Klinger",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": "^12.4 || ^13.4",
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3",
+    "squizlabs/php_codesniffer": "^3",
+    "slevomat/coding-standard": "^8",
+    "vimeo/psalm": "^5",
+    "typo3/testing-framework": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Plan2net\\RequireAltText\\": "Classes"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "require_alt_text"
+    }
+  },
+  "scripts": {
+    "php-cs-fixer": [
+      "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer --config=./Build/php-cs-fixer.php fix --dry-run -v --diff"
+    ],
+    "php-cs-fixer:fix": [
+      "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer --config=./Build/php-cs-fixer.php fix -v"
+    ],
+    "php-codesniffer": [
+      "./vendor/bin/phpcs --standard=./Build/php-codesniffer.xml"
+    ],
+    "php-codesniffer:fix": [
+      "./vendor/bin/phpcbf --standard=./Build/php-codesniffer.xml"
+    ],
+    "psalm": [
+      "./vendor/bin/psalm --config=Build/psalm.xml"
+    ],
+    "test": [
+      "./vendor/bin/phpunit Tests"
+    ],
+    "lint": [
+      "@psalm",
+      "@php-cs-fixer",
+      "@php-codesniffer"
+    ],
+    "lint:fix": [
+      "@psalm",
+      "@php-cs-fixer:fix",
+      "@php-codesniffer:fix"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
