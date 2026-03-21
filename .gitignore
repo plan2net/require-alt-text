@@ -1,8 +1,9 @@
 /.idea
 /.php-cs-fixer.cache
+/.phpunit.cache
 /auth.json
 /composer.lock
-/Build/.psalm.cache
+/docs
 /public
 /var
 /vendor

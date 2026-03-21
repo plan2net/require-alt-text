@@ -36,11 +36,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                 'columns' => [
                     'alternative' => [
                         'config' => [
-                            'placeholder' => 'some placeholder'
-                        ]
-                    ]
-                ]
-            ]
+                            'placeholder' => 'some placeholder',
+                        ],
+                    ],
+                ],
+            ],
         ];
         $result = $this->subject->addData($input);
         self::assertSame($input, $result);
@@ -61,11 +61,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                             'default' => null,
                             'nullable' => true,
                             'eval' => 'trim,null',
-                            'mode' => 'useOrOverridePlaceholder'
-                        ]
-                    ]
-                ]
-            ]
+                            'mode' => 'useOrOverridePlaceholder',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $expected = [
@@ -75,11 +75,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                     'alternative' => [
                         'config' => [
                             'nullable' => false,
-                            'eval' => 'trim,required'
-                        ]
-                    ]
-                ]
-            ]
+                            'eval' => 'trim,required',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
@@ -99,11 +99,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                         'config' => [
                             'default' => null,
                             'nullable' => true,
-                            'eval' => 'trim,null'
-                        ]
-                    ]
-                ]
-            ]
+                            'eval' => 'trim,null',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $expected = [
@@ -113,11 +113,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                     'alternative' => [
                         'config' => [
                             'nullable' => false,
-                            'eval' => 'trim,required'
-                        ]
-                    ]
-                ]
-            ]
+                            'eval' => 'trim,required',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
@@ -126,6 +126,7 @@ class RequireAlternativeTextTest extends UnitTestCase
 
     /**
      * @test
+     *
      * @dataProvider evaluationStringDataProvider
      */
     public function addDataHandlesVariousEvaluationStrings(string $inputEval, string $expectedEval): void
@@ -136,11 +137,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                 'columns' => [
                     'alternative' => [
                         'config' => [
-                            'eval' => $inputEval
-                        ]
-                    ]
-                ]
-            ]
+                            'eval' => $inputEval,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
@@ -170,10 +171,10 @@ class RequireAlternativeTextTest extends UnitTestCase
                     'alternative' => [
                         'config' => [
                             // no 'eval' key
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
@@ -193,11 +194,11 @@ class RequireAlternativeTextTest extends UnitTestCase
                         'config' => [
                             'type' => 'input',
                             'size' => 30,
-                            'eval' => 'trim'
-                        ]
-                    ]
-                ]
-            ]
+                            'eval' => 'trim',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
@@ -215,10 +216,10 @@ class RequireAlternativeTextTest extends UnitTestCase
             'processedTca' => [
                 'columns' => [
                     'alternative' => [
-                        'config' => []
-                    ]
-                ]
-            ]
+                        'config' => [],
+                    ],
+                ],
+            ],
         ];
 
         $result = $this->subject->addData($input);
