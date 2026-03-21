@@ -1,0 +1,118 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - 'fix/*'
+      - 'feature/*'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Run PHP CS Fixer
+        run: composer cs:check
+
+  unit:
+    name: Unit (PHP ${{ matrix.php }} - TYPO3 ${{ matrix.typo3 }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            typo3: '12.4'
+          - php: '8.3'
+            typo3: '12.4'
+          - php: '8.2'
+            typo3: '13.4'
+          - php: '8.3'
+            typo3: '13.4'
+          - php: '8.4'
+            typo3: '13.4'
+          - php: '8.2'
+            typo3: '14.1'
+          - php: '8.3'
+            typo3: '14.1'
+          - php: '8.4'
+            typo3: '14.1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl
+          tools: composer
+
+      - name: Install dependencies
+        run: |
+          composer require "typo3/cms-core:^${{ matrix.typo3 }}" "typo3/cms-backend:^${{ matrix.typo3 }}" --no-update --no-interaction
+          composer install --no-interaction
+
+      - name: Run unit tests
+        run: vendor/bin/phpunit -c phpunit.xml.dist --testsuite unit
+
+  functional:
+    name: Functional (PHP ${{ matrix.php }} - TYPO3 ${{ matrix.typo3 }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            typo3: '12.4'
+          - php: '8.3'
+            typo3: '12.4'
+          - php: '8.2'
+            typo3: '13.4'
+          - php: '8.3'
+            typo3: '13.4'
+          - php: '8.4'
+            typo3: '13.4'
+          - php: '8.2'
+            typo3: '14.1'
+          - php: '8.3'
+            typo3: '14.1'
+          - php: '8.4'
+            typo3: '14.1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl, pdo_sqlite
+          tools: composer
+
+      - name: Install dependencies
+        run: |
+          composer require "typo3/cms-core:^${{ matrix.typo3 }}" "typo3/cms-backend:^${{ matrix.typo3 }}" --no-update --no-interaction
+          composer install --no-interaction
+
+      - name: Run functional tests
+        run: typo3DatabaseDriver=pdo_sqlite vendor/bin/phpunit --bootstrap vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php --testsuite functional
