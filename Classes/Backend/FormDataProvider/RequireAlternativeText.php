@@ -10,13 +10,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class RequireAlternativeText implements FormDataProviderInterface
 {
     /**
-     * Add form data to result array.
+     * @param array<string, mixed> $result
      *
-     * @param array<string, mixed> $result Initialized result array
-     *
-     * @return array<string, mixed> Result filled with more data
-     *
-     * @psalm-suppress UnusedVariable
+     * @return array<string, mixed>
      */
     public function addData(array $result): array
     {
@@ -38,6 +34,9 @@ class RequireAlternativeText implements FormDataProviderInterface
         return $result;
     }
 
+    /**
+     * @param array<string, mixed> $configuration
+     */
     private function isImageRelationWithAlternativeText(array $configuration): bool
     {
         return $configuration['tableName'] === 'sys_file_reference'
@@ -86,9 +85,7 @@ class RequireAlternativeText implements FormDataProviderInterface
     private function setRequiredFieldEvaluation(array $configuration): array
     {
         $evalCodes = GeneralUtility::trimExplode(',', $configuration['eval'] ?? '', true);
-        $evalCodes = array_filter($evalCodes, static function ($value): bool {
-            return $value !== 'null' && $value !== 'required';
-        });
+        $evalCodes = array_filter($evalCodes, static fn (string $value): bool => $value !== 'null' && $value !== 'required');
         $evalCodes[] = 'required';
         $configuration['eval'] = implode(',', $evalCodes);
 

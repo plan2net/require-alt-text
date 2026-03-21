@@ -12,5 +12,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
     ]
 ];
 
+// TYPO3 12/13
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['locallangXMLOverride']['EXT:core/Resources/Private/Language/locallang_tca.xlf'][]
+    = 'EXT:require_alt_text/Resources/Private/Language/core_locallang.xlf';
+// TYPO3 14+
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['resourceOverrides']['EXT:core/Resources/Private/Language/locallang_tca.xlf'][]
     = 'EXT:require_alt_text/Resources/Private/Language/core_locallang.xlf';
