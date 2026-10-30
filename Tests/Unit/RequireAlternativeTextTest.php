@@ -73,7 +73,8 @@ class RequireAlternativeTextTest extends UnitTestCase
                     'alternative' => [
                         'config' => [
                             'nullable' => false,
-                            'eval' => 'trim,required'
+                            'eval' => 'trim',
+                            'required' => true
                         ]
                     ]
                 ]
@@ -109,7 +110,8 @@ class RequireAlternativeTextTest extends UnitTestCase
                     'alternative' => [
                         'config' => [
                             'nullable' => false,
-                            'eval' => 'trim,required'
+                            'eval' => 'trim',
+                            'required' => true
                         ]
                     ]
                 ]
@@ -122,7 +124,7 @@ class RequireAlternativeTextTest extends UnitTestCase
 
     #[Test]
     #[DataProvider('evaluationStringDataProvider')]
-    public function addDataHandlesVariousEvaluationStrings(string $inputEval, string $expectedEval): void
+    public function addDataHandlesVariousEvaluationStrings(string $inputEval, ?string $expectedEval): void
     {
         $input = [
             'tableName' => 'sys_file_reference',
@@ -138,17 +140,18 @@ class RequireAlternativeTextTest extends UnitTestCase
         ];
 
         $result = $this->subject->addData($input);
-        self::assertEquals($expectedEval, $result['processedTca']['columns']['alternative']['config']['eval']);
+        self::assertSame($expectedEval, $result['processedTca']['columns']['alternative']['config']['eval'] ?? null);
+        self::assertTrue($result['processedTca']['columns']['alternative']['config']['required']);
     }
 
     public static function evaluationStringDataProvider(): array
     {
         return [
-            'empty eval' => ['', 'required'],
-            'single eval' => ['trim', 'trim,required'],
-            'multiple evals' => ['trim,null', 'trim,required'],
-            'already required' => ['trim,required', 'trim,required'],
-            'complex eval string' => ['trim,null,alphanum,required', 'trim,alphanum,required'],
+            'empty eval' => ['', null],
+            'single eval' => ['trim', 'trim'],
+            'multiple evals' => ['trim,null', 'trim'],
+            'required in eval, as before TYPO3 12' => ['trim,required', 'trim'],
+            'complex eval string' => ['trim,null,alphanum,required', 'trim,alphanum'],
         ];
     }
 
@@ -169,7 +172,8 @@ class RequireAlternativeTextTest extends UnitTestCase
         ];
 
         $result = $this->subject->addData($input);
-        self::assertEquals('required', $result['processedTca']['columns']['alternative']['config']['eval']);
+        self::assertArrayNotHasKey('eval', $result['processedTca']['columns']['alternative']['config']);
+        self::assertTrue($result['processedTca']['columns']['alternative']['config']['required']);
     }
 
     #[Test]
@@ -211,6 +215,6 @@ class RequireAlternativeTextTest extends UnitTestCase
 
         $result = $this->subject->addData($input);
         self::assertIsArray($result['processedTca']['columns']['alternative']['config']);
-        self::assertEquals('required', $result['processedTca']['columns']['alternative']['config']['eval']);
+        self::assertTrue($result['processedTca']['columns']['alternative']['config']['required']);
     }
 }

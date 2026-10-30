@@ -30,7 +30,7 @@ class RequireAlternativeText implements FormDataProviderInterface
         // otherwise all related options are removed and the editor is forced to supply a text
         if ($this->placeholderIsEmpty($configuration)) {
             $configuration = $this->removeDefaultAndNullableOptions($configuration);
-            $configuration = $this->setRequiredFieldEvaluation($configuration);
+            $configuration = $this->setRequired($configuration);
             $configuration = $this->removePlaceholderOption($configuration);
 
             $result = $this->setAlternativeTextFieldConfiguration($configuration, $result);
@@ -84,14 +84,19 @@ class RequireAlternativeText implements FormDataProviderInterface
      *
      * @return array<array-key, mixed>
      */
-    private function setRequiredFieldEvaluation(array $configuration): array
+    private function setRequired(array $configuration): array
     {
-        $evalCodes = GeneralUtility::trimExplode(',', $configuration['eval'] ?? '', true);
-        $evalCodes = array_filter($evalCodes, static function ($value): bool {
-            return $value !== 'null' && $value !== 'required';
-        });
-        $evalCodes[] = 'required';
-        $configuration['eval'] = implode(',', $evalCodes);
+        // TYPO3 12 and later ignore "required" and "null" in eval
+        $evalCodes = array_filter(
+            GeneralUtility::trimExplode(',', $configuration['eval'] ?? '', true),
+            static fn (string $value): bool => $value !== 'null' && $value !== 'required'
+        );
+        if ($evalCodes === []) {
+            unset($configuration['eval']);
+        } else {
+            $configuration['eval'] = implode(',', $evalCodes);
+        }
+        $configuration['required'] = true;
 
         return $configuration;
     }
