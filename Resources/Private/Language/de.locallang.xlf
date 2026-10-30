@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.0">
-    <file source-language="en"
-          target-language="de"
-          datatype="plaintext"
-          original="messages"
-          date="2020-01-17T15:39:00+00:00"
-          product-name="require_alt_text">
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="EXT:require_alt_text/Resources/Private/Language/locallang.xlf" product-name="require_alt_text">
         <header/>
         <body>
-            <trans-unit id="error.alternativeTextMustNotBeEmpty">
+            <trans-unit id="error.alternativeTextMustNotBeEmpty" resname="error.alternativeTextMustNotBeEmpty">
+                <source>Alternative text for images must not be empty!</source>
                 <target>Alternativer Text für Bilder darf nicht leer sein!</target>
             </trans-unit>
         </body>
