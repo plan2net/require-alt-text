@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Composer takes the version from the tag, TYPO3 from composer.json, and classic installs from ext_emconf.php
+      - name: Check that ext_emconf.php matches the tag
+        run: |
+          declared=$(php -r '$_EXTKEY = "require_alt_text"; $EM_CONF = []; require "ext_emconf.php"; echo $EM_CONF[$_EXTKEY]["version"];')
+          tagged="${GITHUB_REF_NAME#v}"
+          if [ "${declared}" != "${tagged}" ]; then
+            echo "ext_emconf.php says ${declared}, tag says ${tagged}"
+            exit 1
+          fi
+
+      - name: Check that composer.json matches the tag
+        run: |
+          declared=$(jq -r '.extra["typo3/cms"].version' composer.json)
+          tagged="${GITHUB_REF_NAME#v}"
+          if [ "${declared}" != "${tagged}" ]; then
+            echo "composer.json says ${declared}, tag says ${tagged}"
+            exit 1
+          fi
+
+      - name: Take the release notes from the changelog
+        run: |
+          tagged="${GITHUB_REF_NAME#v}"
+          awk -v version="${tagged}" '
+            $0 ~ "^## \\[" version "\\]" { found = 1; next }
+            found && /^## \[/ { exit }
+            found && /^\[[^]]+\]: / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if ! grep -q '[^[:space:]]' release-notes.md; then
+            echo "CHANGELOG.md has no section for ${tagged}"
+            exit 1
+          fi
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 \
+            || gh release create "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file release-notes.md
