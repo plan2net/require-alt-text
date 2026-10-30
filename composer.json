@@ -41,6 +41,11 @@
       "Plan2net\\RequireAltText\\": "Classes"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Plan2net\\RequireAltText\\Tests\\": "Tests"
+    }
+  },
   "extra": {
     "typo3/cms": {
       "extension-key": "require_alt_text"
@@ -63,7 +68,7 @@
       "./vendor/bin/psalm --config=Build/psalm.xml"
     ],
     "test": [
-      "./vendor/bin/phpunit Tests"
+      "./vendor/bin/phpunit --testsuite unit"
     ],
     "lint": [
       "@psalm",

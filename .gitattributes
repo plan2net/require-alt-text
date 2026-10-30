@@ -1,2 +1,8 @@
- /Build/ export-ignore
- /Tests/ export-ignore
+/.editorconfig       export-ignore
+/.gitattributes      export-ignore
+/.github             export-ignore
+/.gitignore          export-ignore
+/.phpstorm.meta.php  export-ignore
+/Build               export-ignore
+/phpunit.xml.dist    export-ignore
+/Tests               export-ignore
