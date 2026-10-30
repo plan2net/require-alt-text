@@ -144,6 +144,9 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertTrue($result['processedTca']['columns']['alternative']['config']['required']);
     }
 
+    /**
+     * @return array<string, array{string, ?string}>
+     */
     public static function evaluationStringDataProvider(): array
     {
         return [

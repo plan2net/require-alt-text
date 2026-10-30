@@ -3,7 +3,6 @@
 /.phpunit.cache
 /auth.json
 /composer.lock
-/Build/.psalm.cache
 /public
 /var
 /vendor

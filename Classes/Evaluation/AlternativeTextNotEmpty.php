@@ -13,10 +13,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class AlternativeTextNotEmpty
 {
     /**
-     * The DataHandler sets the signature.
-     *
-     * @psalm-suppress PossiblyUnusedMethod, PossiblyUnusedParam
-     *
      * @throws Exception
      */
     public function evaluateFieldValue(string $value, string $isIn, bool &$set): string

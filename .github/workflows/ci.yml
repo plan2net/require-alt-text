@@ -31,10 +31,10 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - run: composer update --no-interaction --no-progress --with "typo3/cms-core:${{ matrix.typo3 }}" --with "typo3/cms-backend:${{ matrix.typo3 }}" --with-all-dependencies
-      - run: vendor/bin/phpunit Tests
+      - run: composer test
 
   checks:
-    name: Psalm and coding style
+    name: PHPStan and coding style
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +43,5 @@ jobs:
           php-version: '8.5'
           coverage: none
       - run: composer update --no-interaction --no-progress
-      - run: composer psalm
+      - run: composer phpstan
       - run: composer php-cs-fixer
-      - run: composer php-codesniffer
