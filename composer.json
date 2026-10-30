@@ -62,6 +62,9 @@
     "test": [
       "./vendor/bin/phpunit --testsuite unit"
     ],
+    "test:functional": [
+      "typo3DatabaseDriver=pdo_sqlite ./vendor/bin/phpunit --bootstrap vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php Tests/Functional"
+    ],
     "lint": [
       "@phpstan",
       "@php-cs-fixer"

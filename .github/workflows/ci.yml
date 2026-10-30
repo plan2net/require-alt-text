@@ -29,9 +29,11 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite
           coverage: none
       - run: composer update --no-interaction --no-progress --with "typo3/cms-core:${{ matrix.typo3 }}" --with "typo3/cms-backend:${{ matrix.typo3 }}" --with-all-dependencies
       - run: composer test
+      - run: composer test:functional
 
   checks:
     name: PHPStan and coding style
