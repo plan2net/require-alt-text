@@ -18,6 +18,7 @@ class RequireAlternativeText implements FormDataProviderInterface
      *
      * @psalm-suppress UnusedVariable
      */
+    #[\Override]
     public function addData(array $result): array
     {
         if (!$this->isImageRelationWithAlternativeText($result)) {

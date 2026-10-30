@@ -13,7 +13,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class AlternativeTextNotEmpty
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
+     * The DataHandler sets the signature.
+     *
+     * @psalm-suppress PossiblyUnusedMethod, PossiblyUnusedParam
      *
      * @throws Exception
      */
@@ -34,7 +36,6 @@ class AlternativeTextNotEmpty
      */
     private function setFlashMessageForMissingAlternativeText(): void
     {
-        /** @var FlashMessage $message */
         $message = GeneralUtility::makeInstance(
             FlashMessage::class,
             $GLOBALS['LANG']->sL('LLL:EXT:require_alt_text/Resources/Private/Language/locallang.xlf:error.alternativeTextMustNotBeEmpty'),
@@ -42,7 +43,6 @@ class AlternativeTextNotEmpty
             ContextualFeedbackSeverity::ERROR,
             true // whether message should be stored in session
         );
-        /** @var FlashMessageService $flashMessageService */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $flashMessageService->getMessageQueueByIdentifier()->enqueue($message);
     }

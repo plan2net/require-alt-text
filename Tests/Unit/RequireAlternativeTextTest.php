@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Plan2net\RequireAltText\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Plan2net\RequireAltText\Backend\FormDataProvider\RequireAlternativeText;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -15,9 +19,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         $this->subject = new RequireAlternativeText();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataReturnsUnmodifiedArrayForNonImageReference(): void
     {
         $input = ['tableName' => 'some_other_table'];
@@ -25,9 +27,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertSame($input, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataReturnsUnmodifiedArrayWhenPlaceholderIsPresent(): void
     {
         $input = [
@@ -46,9 +46,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertSame($input, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataModifiesConfigurationWhenPlaceholderIsEmpty(): void
     {
         $input = [
@@ -86,9 +84,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataModifiesConfigurationWhenPlaceholderIsMissing(): void
     {
         $input = [
@@ -124,10 +120,8 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     * @dataProvider evaluationStringDataProvider
-     */
+    #[Test]
+    #[DataProvider('evaluationStringDataProvider')]
     public function addDataHandlesVariousEvaluationStrings(string $inputEval, string $expectedEval): void
     {
         $input = [
@@ -158,9 +152,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataHandlesNonExistentEvalKey(): void
     {
         $input = [
@@ -180,9 +172,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertEquals('required', $result['processedTca']['columns']['alternative']['config']['eval']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataPreservesOtherConfigurationKeys(): void
     {
         $input = [
@@ -205,9 +195,7 @@ class RequireAlternativeTextTest extends UnitTestCase
         self::assertEquals(30, $result['processedTca']['columns']['alternative']['config']['size']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addDataHandlesEmptyConfiguration(): void
     {
         $input = [

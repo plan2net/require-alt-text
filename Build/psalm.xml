@@ -15,5 +15,7 @@
     </stubs>
     <issueHandlers>
         <InternalProperty errorLevel="suppress" />
+        <!-- TYPO3 loads the classes by name -->
+        <UnusedClass errorLevel="suppress" />
     </issueHandlers>
 </psalm>
