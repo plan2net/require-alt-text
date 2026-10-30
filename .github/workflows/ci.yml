@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests, TYPO3 ${{ matrix.typo3 }}, PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { typo3: '^12.4', php: '8.1' }
+          - { typo3: '^12.4', php: '8.5' }
+          - { typo3: '^13.4', php: '8.2' }
+          - { typo3: '^13.4', php: '8.5' }
+          - { typo3: '^14.3', php: '8.2' }
+          - { typo3: '^14.3', php: '8.5' }
+    env:
+      # Every public TYPO3 12 release has known advisories, as its fixes go to paying customers only
+      COMPOSER_NO_SECURITY_BLOCKING: ${{ matrix.typo3 == '^12.4' && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: composer update --no-interaction --no-progress --with "typo3/cms-core:${{ matrix.typo3 }}" --with "typo3/cms-backend:${{ matrix.typo3 }}" --with-all-dependencies
+      - run: vendor/bin/phpunit Tests
+
+  checks:
+    name: Psalm and coding style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      - run: composer update --no-interaction --no-progress
+      - run: composer psalm
+      - run: composer php-cs-fixer
+      - run: composer php-codesniffer
